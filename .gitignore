@@ -1,0 +1,108 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build artifacts
+dist/
+build/
+*.log
+
+# Editor/IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Database
+*.db
+*.sql
+*.sqlite
+*.sqlite3
+dump.rdb
+*.bak
+
+# ===================================
+# Node.js (Backend)
+# ===================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log*
+
+# Logs
+logs
+*.log
+*.out
+*.pid
+*.seed
+*.gz
+
+# Build output
+dist/
+build/
+.tmp/
+.cache/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# PM2 & other runtime files
+pids
+*.pid.lock
+
+# ===================================
+# React (Frontend)
+# ===================================
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
+/frontend/.cache/
+/frontend/dist/
+
+# Service workers
+sw.*
+workbox-*.js
+
+# Local testing
+*.local
+
+# ===================================
+# OS / Misc
+# ===================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===================================
+# Docker
+# ===================================
+.docker/
+docker-compose.override.yml
+
+# ===================================
+# Others
+# ===================================
+*.tgz
+*.zip
+*.tar
+*.tar.gz
+
+# Ignore uploads if stored locally
+/uploads/
