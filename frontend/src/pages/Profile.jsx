@@ -1,70 +1,41 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import AuthContext from '../AuthContext';
 import api from '../api';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
 
-export default function Register() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  
-  const nav = useNavigate();
+export default function Profile() {
+  const { user, logout } = useContext(AuthContext);
+  const [profile, setProfile] = useState(null);
+  const [error, setError] = useState(null);
 
-  const onSubmit = (data) => {
-    api.post('/auth/register', data)
-      .then(() => {
-        toast.success('Registered');
-        nav('/login');
-      })
-      .catch((e) => {
-        toast.error(e.response?.data?.message || 'Register failed');
-      });
-  };
+  useEffect(() => {
+    const tokens = JSON.parse(localStorage.getItem('tokens') || '{}');
+    const accessToken = tokens.accessToken || '';
+
+    api.get('/auth/profile', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then((res) => setProfile(res.data))
+      .catch((err) => setError('Failed to load profile'));
+  }, []);
+
+  if (!user) {
+    return (
+      <div className="container">
+        <p>Please login</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        
-        {/* Username */}
-        <input
-          placeholder="Username"
-          {...register('username', { required: 'Username is required' })}
-        />
-        {errors.username && <p className="error">{errors.username.message}</p>}
-
-        {/* Email */}
-        <input
-          placeholder="Email"
-          {...register('email', {
-            required: 'Email is required',
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: 'Invalid email address',
-            },
-          })}
-        />
-        {errors.email && <p className="error">{errors.email.message}</p>}
-
-        {/* Password */}
-        <input
-          type="password"
-          placeholder="Password"
-          {...register('password', {
-            required: 'Password is required',
-            minLength: {
-              value: 6,
-              message: 'Password must be at least 6 characters',
-            },
-          })}
-        />
-        {errors.password && <p className="error">{errors.password.message}</p>}
-
-        <button type="submit">Register</button>
-      </form>
+      <h2>Profile</h2>
+      {error && <p className="error">{error}</p>}
+      {profile ? (
+        <pre>{JSON.stringify(profile, null, 2)}</pre>
+      ) : (
+        <p>Loading profile...</p>
+      )}
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }
