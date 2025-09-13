@@ -1,5 +1,5 @@
 {
-  "name": "blog_space_backend_full",
+  "name": "blog_space",
   "version": "1.0.0",
   "type": "module",
   "main": "src/server.js",
