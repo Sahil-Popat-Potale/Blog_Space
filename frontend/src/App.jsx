@@ -1,10 +1,11 @@
-import React from 'react'; 
-import { Routes, Route, Link } from 'react-router-dom'; 
-import Home from './pages/Home'; 
-import Login from './pages/Login'; 
-import Register from './pages/Register'; 
-import Profile from './pages/Profile'; 
-import PostDetail from './pages/PostDetail'; 
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ResetPassword from './pages/ResetPassword';
+import Profile from './pages/Profile';
+import PostDetail from './pages/PostDetail';
 import CreatePost from './pages/CreatePost';
 
 export default function App(){ 
@@ -23,6 +24,7 @@ export default function App(){
                     <Route path='/' element={<Home/>}/>
                     <Route path='/login' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path='/profile' element={<Profile/>}/>
                     <Route path='/posts/:id' element={<PostDetail/>}/>
                     <Route path='/create' element={<CreatePost/>}/>

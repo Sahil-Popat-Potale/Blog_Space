@@ -14,7 +14,8 @@ import uploadRoutes from './routes/uploadRoutes.js';
 import path from 'path';
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
+const CLIENT_URL = process.env.CLIENT_URL;
 
 // Security & middleware
 app.use(helmet());
@@ -62,8 +63,9 @@ app.use(errorHandler);
 
 // Start server
 app.listen(PORT, async () => {
-  logger.info(`🚀Blog_Space backend listening on port ${PORT}`);
-  logger.info(`🔗 API URL: http://localhost:${PORT}`);
+  logger.info(`📡 Blog_Space backend listening on port ${PORT}`);
+  logger.info(`⚙️  API URL: http://localhost:${PORT}`);
+  logger.info(`💻 Frontend URL: ${CLIENT_URL}`)
 
   try {
     await pingDB();
