@@ -1,0 +1,75 @@
+.home-root {
+  background: inherit;
+  padding-bottom: 32px;
+}
+.home-heading {
+  font-size: 2.7rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  text-align: left;
+  color: #111;
+}
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 28px;
+}
+.home-card {
+  background: #fafdff;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(45,85,163,0.04);
+  padding: 24px 24px 18px 24px;
+  display: flex;
+  flex-direction: column;
+}
+.home-title {
+  color: #1976d2;
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+.home-meta {
+  color: #666;
+  font-size: 0.98rem;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 14px;
+}
+.home-tags {
+  margin-bottom: 10px;
+}
+.home-tag {
+  background: #d6ecec;
+  color: #226667;
+  padding: 3px 14px;
+  border-radius: 14px;
+  font-size: 0.93rem;
+  margin-right: 7px;
+  font-weight: 500;
+}
+.home-snippet {
+  color: #222;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.home-readmore {
+  align-self: flex-end;
+  background: #1876f2;
+  color: #fff;
+  padding: 7px 16px;
+  border-radius: 16px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 8px;
+  transition: background .15s;
+}
+.home-readmore:hover {
+  background: #1357c2;
+}
+.home-noposts {
+  font-size: 1.25rem;
+  text-align: center;
+  margin-top: 80px;
+  color: #666;
+}
