@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -7,19 +7,15 @@ import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import PostDetail from './pages/PostDetail';
 import CreatePost from './pages/CreatePost';
+import Footer from './pages/Footer';
+import NavBar from './pages/NavBar';
+import './styles/app.css';
 
 export default function App(){ 
     return (
-        <div>
-            <nav style={{padding:10,borderBottom:'1px solid #ddd'}}>
-                <Link to='/'>Home</Link>
-                <Link to='/create'>Create</Link>
-                <Link to='/login'>Login</Link>
-                <Link to='/register'>Register</Link>
-                <Link to='/profile'>Profile</Link>
-            </nav>
-            
-            <div style={{padding:20}}>
+        <div className="app-root">
+            <NavBar />            
+            <div className="app-content">
                 <Routes>
                     <Route path='/' element={<Home/>}/>
                     <Route path='/login' element={<Login/>}/>
@@ -28,8 +24,9 @@ export default function App(){
                     <Route path='/profile' element={<Profile/>}/>
                     <Route path='/posts/:id' element={<PostDetail/>}/>
                     <Route path='/create' element={<CreatePost/>}/>
-                    </Routes>
+                </Routes>
             </div>
+            <Footer />
         </div>
     );
 }
