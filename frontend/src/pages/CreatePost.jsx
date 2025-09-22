@@ -1,124 +1,125 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Basic styles
-import TurndownService from 'turndown'; // For HTML->Markdown
+import 'react-quill/dist/quill.snow.css';
+import TurndownService from 'turndown';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import '../styles/CreatePost.css'; // Make sure this matches your path
 
 export default function CreatePost() {
   const [title, setTitle] = useState('');
   const [contentHTML, setContentHTML] = useState('');
   const [tags, setTags] = useState([]);
   const [tagInput, setTagInput] = useState('');
+  const [previewMode, setPreviewMode] = useState('none'); // 'none' | 'markdown' | 'html'
+  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
-
-  // Setup turndown for markdown conversion
   const turndownService = new TurndownService();
 
-  // Handle tag addition (chips)
-  const handleTagKeyDown = (e) => {
+  // Tag chip logic (no dupes, no empty, lowercase, trim)
+  const addTag = tag => {
+    tag = tag.trim().toLowerCase();
+    if (tag && !tags.includes(tag)) {
+      setTags([...tags, tag]);
+    }
+  };
+  const handleTagKeyDown = e => {
     if ((e.key === 'Enter' || e.key === ',' || e.key === ' ') && tagInput.trim()) {
       e.preventDefault();
-      if (!tags.includes(tagInput.trim())) {
-        setTags([...tags, tagInput.trim()]);
-      }
+      addTag(tagInput);
       setTagInput('');
     } else if (e.key === 'Backspace' && !tagInput && tags.length) {
       setTags(tags.slice(0, tags.length - 1));
     }
   };
-
-  const handleTagRemove = (tagToRemove) => {
+  const handleTagRemove = tagToRemove => {
     setTags(tags.filter(tag => tag !== tagToRemove));
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Convert HTML to Markdown
-      const contentMarkdown = turndownService.turndown(contentHTML);
+  const handlePreviewChange = mode => setPreviewMode(mode);
 
-      // Send both HTML and Markdown in the payload
+  const onSubmit = async e => {
+    e.preventDefault();
+    if (!title.trim()) return toast.error("Title is required");
+    if (!contentHTML || turndownService.turndown(contentHTML).trim() === '') {
+      return toast.error("Blog post content cannot be empty");
+    }
+    setLoading(true);
+    try {
+      const contentMarkdown = turndownService.turndown(contentHTML);
       const payload = {
-        title,
+        title: title.trim(),
         content_html: contentHTML,
         content_markdown: contentMarkdown,
         tags,
       };
-      // Add token logic here if needed
       const res = await api.post('/posts', payload, {
         headers: {
           Authorization: 'Bearer ' + (JSON.parse(localStorage.getItem('tokens') || '{}').accessToken || ''),
         },
       });
-      nav(`/posts/${res.data.id}`);
+      toast.success("Blog post published!");
+      setTimeout(() => nav(`/posts/${res.data.id}`), 800); // Delay a sec for nice UX
     } catch (err) {
-      alert('Create post failed: ' + (err.response?.data?.message || err.message));
+      toast.error(err.response?.data?.message || "Failed to create post");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{
-      maxWidth: '680px', margin: '40px auto', padding: '24px', background: '#fff',
-      borderRadius: '8px', boxShadow: '0 2px 16px rgba(0,0,0,0.06)', fontFamily: 'Georgia, serif'
-    }}>
-      <form onSubmit={onSubmit}>
-        {/* Title */}
+    <div className="createpost-root">
+      <form className="createpost-form" onSubmit={onSubmit}>
         <input
+          className="createpost-title"
           value={title}
           onChange={e => setTitle(e.target.value)}
           placeholder="Title"
-          style={{
-            width: '100%', border: 'none', fontSize: '2.6rem', fontWeight: 700,
-            marginBottom: 16, outline: 'none', background: 'none'
-          }}
           required
           autoFocus
         />
-
-        {/* Medium-like Tags */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', marginBottom: 16 }}>
+        <div className="createpost-tags">
           {tags.map((tag, idx) => (
-            <span key={idx} style={{
-              background: '#eee', borderRadius: 16, padding: '3px 12px', margin: '3px 4px',
-              fontSize: 14, display: 'flex', alignItems: 'center'
-            }}>
+            <span className="createpost-tag" key={tag}>
               {tag}
-              <span onClick={() => handleTagRemove(tag)} style={{ marginLeft: 8, cursor: 'pointer' }}>×</span>
+              <span className="createpost-tag-remove" onClick={() => handleTagRemove(tag)}>×</span>
             </span>
           ))}
           <input
+            className="createpost-taginput"
             value={tagInput}
             onChange={e => setTagInput(e.target.value.replace(/[^\w-]/g, ''))}
             onKeyDown={handleTagKeyDown}
             placeholder="Add a tag"
-            style={{
-              border: 'none', outline: 'none', fontSize: 14, flex: 1, minWidth: 80
-            }}
           />
         </div>
-
-        {/* Rich Text Editor */}
-        <ReactQuill
-          value={contentHTML}
-          onChange={setContentHTML}
-          placeholder="Write your story..."
-          style={{ height: '260px', marginBottom: 32, background: '#e9e9eeff', color: '#000' }}
-          modules={{
-            toolbar: [
-              [{ 'header': [1, 2, false] }],
-              ['bold', 'italic', 'underline', 'link'],
-              ['blockquote', 'code-block', 'image'],
-              [{ 'list': 'ordered'}, { 'list': 'bullet' }]
-            ]
-          }}
-        />
-
-        <button type="submit" style={{
-          background: '#1a8917', color: '#fff', border: 'none', padding: '10px 28px',
-          borderRadius: '20px', fontWeight: 700, fontSize: 16, cursor: 'pointer'
-        }}>
-          Publish
+        <div className="createpost-toolbar">
+          <button type="button" className={previewMode === 'none' ? 'active' : ''} onClick={() => handlePreviewChange('none')}>Write</button>
+          <button type="button" className={previewMode === 'markdown' ? 'active' : ''} onClick={() => handlePreviewChange('markdown')}>Markdown Preview</button>
+          <button type="button" className={previewMode === 'html' ? 'active' : ''} onClick={() => handlePreviewChange('html')}>HTML Preview</button>
+        </div>
+        {previewMode === 'none' &&
+          <ReactQuill
+            value={contentHTML}
+            onChange={setContentHTML}
+            placeholder="Write your story..."
+            className="createpost-editor"
+            modules={{
+              toolbar: [
+                [{ 'header': [1, 2, false] }],
+                ['bold', 'italic', 'underline', 'link'],
+                ['blockquote', 'code-block', 'image'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }]
+              ]
+            }}
+          />}
+        {previewMode === 'markdown' &&
+          <pre className="createpost-preview">{turndownService.turndown(contentHTML)}</pre>}
+        {previewMode === 'html' &&
+          <div className="createpost-preview" dangerouslySetInnerHTML={{ __html: contentHTML }} />}
+        <button className="createpost-publishbtn" type="submit" disabled={loading}>
+          {loading ? 'Publishing...' : 'Publish'}
         </button>
       </form>
     </div>

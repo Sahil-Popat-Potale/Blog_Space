@@ -22,17 +22,27 @@ export const loginSchema = Joi.object({
   password: Joi.string().required(),
 });
 
-// Post schema
+// Post schema (final, after all your changes)
 export const postSchema = Joi.object({
   title: Joi.string()
     .min(5)
-    .max(100)
+    .max(200)
     .required(),
-  content: Joi.string()
-    .min(50)
+  content_html: Joi.string()
+    .min(20)
     .required(),
-  categories: Joi.array()
-    .items(Joi.number().integer())
+  content_markdown: Joi.string()
+    .min(20)
+    .required(),
+  tags: Joi.array()
+    .items(
+      Joi.string()
+        .trim()
+        .lowercase()
+        .min(1)
+        .max(50)
+    )
+    .max(10)
     .optional(),
   is_approved: Joi.boolean().optional(),
 });
