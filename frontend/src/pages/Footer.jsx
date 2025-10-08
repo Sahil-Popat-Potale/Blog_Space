@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="footer-root">
       <div>
-        &copy; {new Date().getFullYear()} Blog_Space | Created by Sahil Popat Potale
+        &copy; {new Date().getFullYear()} Blog_Space | Created by Blog_Space Ltd.
       </div>
       <div className="footer-links">
         <a href="mailto:blog001.space@gmail.com" target="_blank" rel="noopener">Contact | Email</a>

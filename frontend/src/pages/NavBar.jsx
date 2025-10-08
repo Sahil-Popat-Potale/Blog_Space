@@ -9,8 +9,8 @@ export default function NavBar() {
 
   return (
     <nav className="navbar">
-      <Link className="navbar-title" to="/">Blog_Space</Link>
-      <Link className="navbar-link" to="/create">Create</Link>
+      <Link className="navbar-title" to="/">Blog Space</Link>
+      <Link className="navbar-link" to="/create">✒️Write</Link>
       <div className="navbar-actions">
         {user ? (
           <>
