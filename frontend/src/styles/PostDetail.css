@@ -1,0 +1,13 @@
+.post-tags {
+  margin: 10px 0;
+}
+
+.post-tag {
+  background: #d6ecec;
+  color: #226667;
+  padding: 3px 14px;
+  border-radius: 14px;
+  font-size: 0.93rem;
+  margin-right: 7px;
+  font-weight: 500;
+}
