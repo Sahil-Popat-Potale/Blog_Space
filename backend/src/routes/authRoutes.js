@@ -3,6 +3,7 @@ import {
   register,
   login,
   profile,
+  updateProfile,
   refreshToken,
   logout,
   forgotPassword,
@@ -10,6 +11,7 @@ import {
 } from '../controllers/authController.js';
 import { requireAuth } from '../middlewares/auth.js';
 import { registerSchema, loginSchema } from '../validators/schemas.js';
+import { upload } from '../config/cloudinary.js';
 
 const router = express.Router();
 
@@ -27,7 +29,6 @@ function validate(schema) {
         details: error.details,
       });
     }
-
     next();
   };
 }
@@ -40,5 +41,9 @@ router.post('/logout', logout);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 router.get('/profile', requireAuth, profile);
+router.put('/profile', requireAuth, upload.single('avatar'), updateProfile);
+
+
+
 
 export default router;
