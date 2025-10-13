@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import api from '../api';
 import { Link } from 'react-router-dom';
 import TurndownService from 'turndown';
+
+import ClickSpark from '../anime/ClickSpark';
 import '../styles/Home.css';
 
 const turndownService = new TurndownService();
@@ -16,6 +18,7 @@ export default function Home() {
 
   return (
     <main className="home-root">
+      <ClickSpark sparkColor="#ff4500">
       <h2 className="home-heading">Latest Posts</h2>
       {posts.length ? (
         <div className="home-grid">
@@ -33,7 +36,12 @@ export default function Home() {
                   <span className="home-tag" key={tag}>{tag}</span>
                 )}
               </div>
-              <p className="home-snippet">{turndownService.turndown(p.content_html).slice(0, 200)}...</p>
+              {/* 
+              1.Using turndown to convert HTML content to plain text for snippet
+              2.Using dangerouslySetInnerHTML to render HTML snippet
+               */}
+              {/*<p className="home-snippet">{turndownService.turndown(p.content_html).slice(0, 200)}...</p>*/}
+              <div className="home-snippet" dangerouslySetInnerHTML={{ __html: p.content_html.slice(0, 200) + '...' }} />
               <Link className="home-readmore" to={`/posts/${p.id}`}>Read More</Link>
             </div>
           ))}
@@ -41,6 +49,7 @@ export default function Home() {
       ) : (
         <p className="home-noposts">No posts yet. Be the first to <Link to="/create">publish</Link>!</p>
       )}
+      </ClickSpark>
     </main>
   );
 }

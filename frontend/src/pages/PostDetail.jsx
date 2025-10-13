@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api from '../api';
 import '../styles/PostDetail.css';
 
@@ -15,14 +15,15 @@ export default function PostDetail() {
 
   if (!post) {
     return (
-      <div className="container">
+      <div className="post-detail-container">
         <p>Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="container">
+    <div className="post-detail-container">
+      <Link to="/home">Home</Link>
       <h2>{post.title}</h2>
       <small>By {post.author}</small>
       <div className="post-tags">

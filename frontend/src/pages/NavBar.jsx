@@ -10,12 +10,12 @@ export default function NavBar() {
   return (
     <nav className="navbar">
       <Link className="navbar-title" to="/">Blog Space</Link>
-      <Link className="navbar-link" to="/create">✒️Write</Link>
       <div className="navbar-actions">
         {user ? (
           <>
+            <Link className="navbar-link" to="/create">✒️Write</Link>
             <Link className="navbar-link" to="/profile">Profile</Link>
-            <button className="navbar-btn" onClick={() => { logout(); nav('/'); }}>Logout</button>
+            <button className="navbar-btn" onClick={() => { logout(); nav('/home'); }}>Logout</button>
           </>
         ) : (
           <>
