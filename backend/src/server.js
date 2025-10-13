@@ -7,6 +7,7 @@ import { logger } from './config/logger.js';
 import { notFound, errorHandler, welcomeRoute } from './middlewares/error.js';
 import { pingDB } from './db/pool.js';
 import authRoutes from './routes/authRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 import postsRoutes from './routes/postsRoutes.js';
 import commentsRoutes from './routes/commentsRoutes.js';
 import likesRoutes from './routes/likesRoutes.js';
@@ -46,6 +47,7 @@ app.get('/health', async (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/admin', adminRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/likes', likesRoutes);

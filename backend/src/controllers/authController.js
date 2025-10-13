@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { pool } from '../db/pool.js';
+import { upload } from '../config/cloudinary.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../utils/jwt.js';
 import { sendEmail } from '../utils/email.js';
@@ -89,14 +90,161 @@ export async function login(req, res, next) {
   }
 }
 
+export async function updateProfile(req, res, next) {
+  const userId = req.user.id;
+  const { username, email, bio } = req.body;
+  const avatarFile = req.file; // From multer/cloudinary upload
+  
+  try {
+    // Get current user data with cooldown timestamps
+    const [currentUser] = await pool.query(
+      `SELECT username, email, bio, avatar_url, 
+              username_updated_at, email_updated_at, bio_updated_at, avatar_updated_at
+       FROM users WHERE id = :id`,
+      { id: userId }
+    );
+    
+    if (!currentUser.length) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    const user = currentUser[0];
+    const now = new Date();
+    const updates = [];
+    const params = { id: userId };
+    const cooldownErrors = [];
+    
+    // Helper function to check cooldown
+    const checkCooldown = (lastUpdated, cooldownHours, fieldName) => {
+      if (!lastUpdated) return true;
+      const cooldownEnd = new Date(lastUpdated.getTime() + (cooldownHours * 60 * 60 * 1000));
+      if (now < cooldownEnd) {
+        const remaining = Math.ceil((cooldownEnd - now) / (1000 * 60 * 60));
+        cooldownErrors.push(`${fieldName} can be changed after ${remaining} hours`);
+        return false;
+      }
+      return true;
+    };
+    
+    // Check username (24 hours cooldown)
+    if (username && username !== user.username) {
+      if (checkCooldown(user.username_updated_at, 24, 'Username')) {
+        // Check if username already exists
+        const [existing] = await pool.query(
+          'SELECT id FROM users WHERE username = :username AND id != :id',
+          { username, id: userId }
+        );
+        if (existing.length) {
+          return res.status(409).json({ message: 'Username already exists' });
+        }
+        updates.push('username = :username', 'username_updated_at = NOW()');
+        params.username = username;
+      }
+    }
+    
+    // Check email (15 days cooldown)
+    if (email && email !== user.email) {
+      if (checkCooldown(user.email_updated_at, 15 * 24, 'Email')) {
+        // Check if email already exists
+        const [existing] = await pool.query(
+          'SELECT id FROM users WHERE email = :email AND id != :id',
+          { email, id: userId }
+        );
+        if (existing.length) {
+          return res.status(409).json({ message: 'Email already exists' });
+        }
+        updates.push('email = :email', 'email_updated_at = NOW()');
+        params.email = email;
+      }
+    }
+    
+    // Check bio (2 minutes cooldown)
+    if (bio !== undefined && bio !== user.bio) {
+      if (checkCooldown(user.bio_updated_at, 2/60, 'Bio')) { // 2 minutes in hours
+        updates.push('bio = :bio', 'bio_updated_at = NOW()');
+        params.bio = bio;
+      }
+    }
+    
+    // Check avatar (2 minutes cooldown)
+    if (avatarFile) {
+      if (checkCooldown(user.avatar_updated_at, 2/60, 'Avatar')) { // 2 minutes in hours
+        updates.push('avatar_url = :avatar_url', 'avatar_updated_at = NOW()');
+        params.avatar_url = avatarFile.path; // Cloudinary URL
+      }
+    }
+    
+    // Return cooldown errors if any
+    if (cooldownErrors.length > 0) {
+      return res.status(429).json({ 
+        message: 'Cooldown restrictions active',
+        errors: cooldownErrors 
+      });
+    }
+    
+    // If no updates, return current profile
+    if (updates.length === 0) {
+      return res.json({ 
+        message: 'No changes detected',
+        user: user 
+      });
+    }
+    
+    // Execute updates
+    updates.push('updated_at = NOW()');
+    await pool.query(
+      `UPDATE users SET ${updates.join(', ')} WHERE id = :id`,
+      params
+    );
+    
+    // Get updated user data
+    const [updatedUser] = await pool.query(
+      `SELECT id, username, email, role, bio, avatar_url, is_email_verified, 
+              created_at, updated_at, username_updated_at, email_updated_at, 
+              bio_updated_at, avatar_updated_at
+       FROM users WHERE id = :id`,
+      { id: userId }
+    );
+    
+    res.json({
+      message: 'Profile updated successfully',
+      user: updatedUser[0]
+    });
+    
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function profile(req, res, next) {
   try {
     const [rows] = await pool.query(
-      'SELECT id, username, email, role, bio, avatar_url, is_email_verified, created_at, updated_at FROM users WHERE id = :id',
+      `SELECT id, username, email, role, bio, avatar_url, is_email_verified, 
+              created_at, updated_at, username_updated_at, email_updated_at, 
+              bio_updated_at, avatar_updated_at 
+       FROM users WHERE id = :id`,
       { id: req.user.id }
     );
     if (!rows.length) return res.status(404).json({ message: 'User not found' });
-    res.json(rows[0]);
+    
+    // Calculate remaining cooldown times
+    const user = rows[0];
+    const now = new Date();
+    
+    const getCooldownRemaining = (lastUpdated, cooldownHours) => {
+      if (!lastUpdated) return 0;
+      const cooldownEnd = new Date(lastUpdated.getTime() + (cooldownHours * 60 * 60 * 1000));
+      return now < cooldownEnd ? Math.ceil((cooldownEnd - now) / (1000 * 60 * 60)) : 0;
+    };
+    
+    user.cooldowns = {
+      username: getCooldownRemaining(user.username_updated_at, 24),
+      email: getCooldownRemaining(user.email_updated_at, 15 * 24),
+      bio: getCooldownRemaining(user.bio_updated_at, 2/60),
+      avatar: getCooldownRemaining(user.avatar_updated_at, 2/60),
+    };
+    
+    res.json(user);
   } catch (err) {
     next(err);
   }
