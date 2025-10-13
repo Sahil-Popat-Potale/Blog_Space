@@ -18,7 +18,7 @@ export default function Login() {
       .then((r) => {
         save(r.data.user, r.data.tokens);
         toast.success('Logged in');
-        nav('/');
+        nav('/home');
       })
       .catch((e) => {
         toast.error(e.response?.data?.message || 'Login failed');
