@@ -21,7 +21,7 @@ export default function App(){
 
     return (
         <div className="app-root">
-            {!hideNavOn.includes(location.pathname) && <NavBar />}            
+            {!hideNavOn.includes(location.pathname) && <NavBar />}
             <div className="app-content">
                 <Routes>
                     {user && user.role === 'admin' && <Route path="/admin" element={<AdminDashboard />} />}

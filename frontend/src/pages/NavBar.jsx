@@ -14,6 +14,7 @@ export default function NavBar() {
         {user ? (
           <>
             <Link className="navbar-link" to="/create">✒️Write</Link>
+            {user && user.role === 'admin' && <Link className="navbar-link" to="/admin">Admin</Link> }
             <Link className="navbar-link" to="/profile">Profile</Link>
             <button className="navbar-btn" onClick={() => { logout(); nav('/home'); }}>Logout</button>
           </>
