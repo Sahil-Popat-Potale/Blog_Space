@@ -3,7 +3,7 @@ import api from '../api';
 import { Link } from 'react-router-dom';
 import TurndownService from 'turndown';
 
-import ClickSpark from '../anime/ClickSpark';
+import ClickSpark from '../assets/ClickSpark';
 import '../styles/Home.css';
 
 const turndownService = new TurndownService();
