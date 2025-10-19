@@ -36,10 +36,10 @@ const authLimiter = rateLimit({
 app.use('/api/auth', authLimiter);
 
 // Health check route
-app.get('/health', async (req, res) => {
+app.get('/api/health', async (req, res) => {
   try {
     await pingDB();
-    res.json({ status: 'ok' });
+    res.json({ status: 'ok, DB Connected' });
   } catch (e) {
     res.status(500).json({ status: 'db_error' });
   }
@@ -47,7 +47,7 @@ app.get('/health', async (req, res) => {
 
 // API routes
 app.use('/api/auth', authRoutes);
-app.use('/admin', adminRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/likes', likesRoutes);
