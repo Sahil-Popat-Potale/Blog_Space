@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
+import AuthContext from '../AuthContext';
 import '../styles/AdminDashboard.css';
 
 const TAB_USERS = 'Users';
@@ -8,6 +9,9 @@ const TAB_COMMENTS = 'Comments';
 const TAB_ANALYTICS = 'Analytics';
 
 export default function AdminDashboard() {
+  const { user } = React.useContext(AuthContext);
+
+  // Redirect non-admins
   const [tab, setTab] = useState(TAB_USERS);
 
   // State for each admin feature
@@ -18,14 +22,21 @@ export default function AdminDashboard() {
 
   // Fetch functions
   useEffect(() => {
+    if (!user) return;
+    const tokens = JSON.parse(localStorage.getItem('tokens') || '{}');
+    const accessToken = tokens.accessToken || '';
     if (tab === TAB_USERS) {
-      api.get('/admin/users').then(res => setUsers(res.data));
+      api.get('/admin/users', { headers: { Authorization: `Bearer ${accessToken}` },
+      }).then(res => setUsers(res.data));
     } else if (tab === TAB_POSTS) {
-      api.get('/admin/posts').then(res => setPosts(res.data));
+      api.get('/admin/posts', { headers: { Authorization: `Bearer ${accessToken}` },
+      }).then(res => setPosts(res.data));
     } else if (tab === TAB_COMMENTS) {
-      api.get('/admin/comments').then(res => setComments(res.data));
+      api.get('/admin/comments', { headers: { Authorization: `Bearer ${accessToken}` },
+      }).then(res => setComments(res.data));
     } else if (tab === TAB_ANALYTICS) {
-      api.get('/admin/analytics').then(res => setStats(res.data));
+      api.get('/admin/analytics', { headers: { Authorization: `Bearer ${accessToken}` },
+      }).then(res => setStats(res.data));
     }
   }, [tab]);
 
@@ -38,11 +49,11 @@ export default function AdminDashboard() {
     api.put(`/admin/users/${id}`, { role: 'admin' }).then(() => setTab(TAB_USERS));
   };
   const handleApprovePost = (id) => {
-    api.put(`/admin/posts/${id}/approve`).then(() => setTab(TAB_POSTS));
+    api.put(`/posts/${id}/approve`).then(() => setTab(TAB_POSTS));
   };
   const handleDeletePost = (id) => {
     if (window.confirm('Delete this post?'))
-      api.delete(`/admin/posts/${id}`).then(() => setTab(TAB_POSTS));
+      api.delete(`/posts/${id}`).then(() => setTab(TAB_POSTS));
   };
   const handleDeleteComment = (id) => {
     if (window.confirm('Delete this comment?'))
