@@ -13,6 +13,7 @@ import {
   adminAnalytics,
   adminListLikes, // if needed
 } from '../controllers/adminController.js';
+import analyticsRoutes from './adminAnalyticsRoutes.js';
 
 const router = express.Router();
 
@@ -34,6 +35,7 @@ router.delete('/comments/:id', adminDeleteComment);
 
 // Analytics
 router.get('/analytics', adminAnalytics);
+router.use('/analytics', analyticsRoutes);
 
 // Likes (optional, for moderation)
 router.get('/post/:postId/likes', adminListLikes);
