@@ -1,0 +1,81 @@
+@use "sass:color";
+@use 'variables';
+
+// Global reset
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background-color: $color-bg;
+  color: $color-text;
+  font-family: $font-body;
+  font-size: $font-size-base;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+// Scrollbar styling
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: color.adjust($color-primary, $lightness: 10%);
+  border-radius: $radius-md;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color.adjust($color-primary, $lightness: -10%);
+}
+
+// Typography hierarchy
+h1 { @include heading(1); }
+h2 { @include heading(2); }
+h3 { @include heading(3); }
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: color.adjust($color-primary, $lightness: -10%);
+  }
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-md;
+  background-color: $color-primary;
+  color: #fff;
+  font-weight: 500;
+  font-size: $font-size-sm;
+  transition: background $transition-fast, transform $transition-fast;
+
+  &:hover {
+    background-color: color.adjust($color-primary, $lightness: -5%);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+input, textarea {
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-md;
+  font-family: $font-body;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.15);
+  }
+}

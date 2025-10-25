@@ -1,0 +1,31 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin card {
+  background: $color-surface;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  padding: $space-md;
+  transition: box-shadow $transition-base;
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+@mixin heading($size) {
+  font-family: $font-heading;
+  color: $color-primary;
+  font-weight: 600;
+  margin-bottom: $space-sm;
+
+  @if $size == 1 {
+    font-size: $font-size-h1;
+  } @else if $size == 2 {
+    font-size: $font-size-h2;
+  } @else if $size == 3 {
+    font-size: $font-size-h3;
+  }
+}

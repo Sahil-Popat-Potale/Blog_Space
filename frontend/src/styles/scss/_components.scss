@@ -1,0 +1,84 @@
+@use "sass:color";
+@use 'variables';
+@use 'mixins';
+
+// ===============================
+// 🧩 SHARED COMPONENT STYLES
+// ===============================
+
+// Generic card container
+.card {
+  @include card;
+}
+
+// Button variants
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-md;
+  transition: background $transition-base, transform $transition-fast;
+  text-align: center;
+
+  &--primary {
+    background-color: $color-primary;
+    color: #fff;
+
+    &:hover {
+      background-color: color.adjust($color-primary, $lightness: -5%);
+    }
+  }
+
+  &--secondary {
+    background-color: $color-secondary;
+    color: #000;
+
+    &:hover {
+      background-color: color.adjust($color-secondary, $lightness: -5%);
+    }
+  }
+
+  &--outline {
+    background: transparent;
+    border: 1px solid $color-primary;
+    color: $color-primary;
+
+    &:hover {
+      background-color: rgba($color-primary, 0.1);
+    }
+  }
+}
+
+// Alert component
+.alert {
+  border-radius: $radius-sm;
+  padding: $space-sm $space-md;
+  margin-bottom: $space-md;
+  font-size: $font-size-sm;
+
+  &--success {
+    background: rgba($color-success, 0.1);
+    color: $color-success;
+  }
+
+  &--error {
+    background: rgba($color-error, 0.1);
+    color: $color-error;
+  }
+}
+
+// Form input styles
+.input {
+  width: 100%;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $space-sm $space-md;
+  font-family: $font-body;
+  transition: border-color $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.15);
+  }
+}

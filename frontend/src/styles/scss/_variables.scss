@@ -1,0 +1,47 @@
+// COLORS
+$color-primary: #1a73e8;
+$color-secondary: #ffb703;
+$color-bg: #f9fafc;
+$color-surface: #ffffff;
+$color-text: #1e1e1e !default;
+$color-muted: #6c757d;
+$color-border: #e0e0e0;
+$color-success: #00c853;
+$color-error: #e53935;
+$color-info: #0091ea;
+
+// TYPOGRAPHY
+$font-body: 'Inter', sans-serif;
+$font-heading: 'Playfair Display', serif;
+
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-h3: 1.5rem;
+$font-size-h2: 2rem;
+$font-size-h1: 2.5rem;
+
+// SPACING
+$space-xxs: 2px;
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 16px;
+$space-lg: 24px;
+$space-xl: 40px;
+$space-xxl: 64px;
+
+// BORDERS & RADIUS
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 16px;
+
+// SHADOWS
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+
+// TRANSITIONS
+$transition-fast: 0.2s ease;
+$transition-base: 0.3s ease;
+$transition-slow: 0.5s ease;
