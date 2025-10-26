@@ -1,0 +1,178 @@
+:root {
+  --bento-purple: rgba(132, 0, 255, 1);
+  --bento-purple-light: rgba(132, 0, 255, 0.15);
+  --bento-border: rgba(132, 0, 255, 0.2);
+  --bento-bg-light: #ffffff;
+  --bento-bg-dark: #0b001a;
+  --bento-text-dark: #000000;
+  --bento-text-light: #ffffff;
+}
+
+/* Root */
+.welcome-bento-root {
+  background-color: var(--bento-bg-light);
+  color: var(--bento-text-dark);
+  min-height: 100vh;
+  transition: background 0.4s, color 0.4s;
+  padding-bottom: 3em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .welcome-bento-root {
+    background-color: var(--bento-bg-dark);
+    color: var(--bento-text-light);
+  }
+}
+
+/* Header & Nav */
+.welcome-bento-header {
+  padding: 1em;
+  border-bottom: 1px solid var(--bento-border);
+}
+
+.welcome-bento-navbar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5em;
+}
+
+.welcome-bento-navlink {
+  text-decoration: none;
+  color: var(--bento-purple);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.welcome-bento-navlink:hover {
+  color: var(--bento-text-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  .welcome-bento-navlink:hover {
+    color: var(--bento-text-light);
+  }
+}
+
+/* Search box (top-left) */
+.welcome-bento-search {
+  margin-top: 1em;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 2em;
+}
+
+#welcome-bento-search-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  border: 1px solid var(--bento-border);
+  border-radius: 20px;
+  padding: 0.4em 0.8em;
+  background: rgba(132, 0, 255, 0.05);
+}
+
+.welcome-bento-search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  width: 180px;
+  font-size: 0.95em;
+}
+
+.welcome-bento-search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--bento-purple);
+  font-size: 1.1em;
+}
+
+/* Toggle button */
+.welcome-bento-toggle {
+  text-align: right;
+  margin: 1em 2em;
+}
+
+.welcome-bento-toggle-btn {
+  background: var(--bento-purple);
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.3s;
+}
+
+.welcome-bento-toggle-btn:hover {
+  opacity: 0.8;
+}
+
+/* Bento Grid */
+.welcome-bento-card-grid {
+  display: grid;
+  gap: 1em;
+  max-width: 65em;
+  margin: 2em auto;
+  padding: 0 1em;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.welcome-bento-card {
+  position: relative;
+  background: var(--bento-bg-light);
+  color: var(--bento-text-dark);
+  border: 1px solid var(--bento-border);
+  border-radius: 16px;
+  padding: 1.2em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+@media (prefers-color-scheme: dark) {
+  .welcome-bento-card {
+    background: var(--bento-bg-dark);
+    color: var(--bento-text-light);
+  }
+}
+
+.welcome-bento-card:hover {
+  box-shadow: 0 0 25px var(--bento-purple-light);
+  transform: translateY(-4px);
+}
+
+/* Card content */
+.welcome-bento-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+}
+
+.welcome-bento-card-label {
+  font-size: 14px;
+  color: var(--bento-purple);
+  opacity: 0.8;
+}
+
+.welcome-bento-card-title {
+  font-size: 1.3em;
+  margin: 0;
+}
+
+.welcome-bento-card-desc {
+  font-size: 0.95em;
+  opacity: 0.8;
+}
+
+/* Particles (star effect) */
+.welcome-bento-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--bento-purple);
+  pointer-events: none;
+  z-index: 5;
+}
