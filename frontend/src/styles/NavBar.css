@@ -1,17 +1,25 @@
 .navbar {
-  background: #fff;
-  border-bottom: 1px solid #eaeaea;
-  padding: 16px 36px;
+  background-color: rgba (255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 36px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Inter';
 }
 .navbar-title {
   font-size: 2.1rem;
   font-weight: 700;
   color: #1876f2;
   text-decoration: none;
+
+  span{
+    color: #8317ff;
+  }
 }
 .navbar-link {
   margin-left: 22px;

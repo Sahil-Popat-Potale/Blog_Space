@@ -9,7 +9,7 @@ export default function NavBar() {
 
   return (
     <nav className="navbar">
-      <Link className="navbar-title" to="/">Blog Space</Link>
+      <Link className="navbar-title" to="/">Blog <span>Space</span></Link>
       <div className="navbar-actions">
         {user ? (
           <>
