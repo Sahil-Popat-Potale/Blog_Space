@@ -1,0 +1,83 @@
+@import "./variables";
+@import "./mixins";
+
+.post-detail {
+  background: $color-bg;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-xl;
+
+  &__container {
+    max-width: 800px;
+    background: #fff;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    padding: $space-xl;
+    line-height: 1.7;
+    color: $color-text;
+
+    h1 {
+      @include heading(2);
+      color: $color-primary;
+      margin-bottom: $space-sm;
+    }
+
+    &__meta {
+      font-size: $font-size-sm;
+      color: $color-muted;
+      margin-bottom: $space-md;
+    }
+
+    &__tags {
+      margin-bottom: $space-sm;
+
+      .post-tag {
+        background: $color-tag-bg;
+        color: $color-tag-text;
+        padding: 3px 14px;
+        border-radius: 14px;
+        font-size: $font-size-sm;
+        margin-right: $space-sm;
+      }
+    }
+
+    &__content {
+      font-size: $font-size-base;
+      margin-bottom: $space-xl;
+      white-space: pre-wrap;
+    }
+
+    .back-btn {
+      text-decoration: none;
+    }
+  }
+
+  &__loading,
+  &__notfound {
+    @include flex-center;
+    flex-direction: column;
+    height: 70vh;
+    color: $color-muted;
+
+    .spinner {
+      border: 3px solid $color-border;
+      border-top: 3px solid $color-primary;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: $space-md;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

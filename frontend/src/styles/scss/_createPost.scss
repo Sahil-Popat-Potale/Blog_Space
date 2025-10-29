@@ -1,0 +1,75 @@
+@import "./variables";
+@import "./mixins";
+
+.create-post {
+  background: $color-bg;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $space-xl;
+
+  &__container {
+    width: 100%;
+    max-width: 700px;
+    background: #fff;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    padding: $space-xl $space-lg;
+    text-align: center;
+
+    h1 {
+      @include heading(2);
+      color: $color-primary;
+      margin-bottom: $space-sm;
+    }
+
+    .subtitle {
+      color: $color-muted;
+      margin-bottom: $space-lg;
+    }
+
+    .create-post__form {
+      display: flex;
+      flex-direction: column;
+      gap: $space-md;
+
+      .form-group {
+        text-align: left;
+
+        label {
+          display: block;
+          font-weight: 600;
+          margin-bottom: $space-xs;
+          color: $color-text;
+        }
+
+        input,
+        textarea {
+          width: 100%;
+          padding: $space-sm $space-md;
+          border: 1px solid $color-border;
+          border-radius: $radius-md;
+          font-size: $font-size-base;
+          transition: all 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: $color-primary;
+            box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+          }
+        }
+      }
+
+      .error-text {
+        color: red;
+        font-size: $font-size-sm;
+      }
+
+      .btn {
+        align-self: flex-end;
+        margin-top: $space-md;
+      }
+    }
+  }
+}
