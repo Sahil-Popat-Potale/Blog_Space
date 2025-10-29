@@ -1,0 +1,139 @@
+@import "./variables";
+@import "./mixins";
+
+.home {
+  background: $color-bg;
+  min-height: 100vh;
+  padding-bottom: $space-xl;
+
+  &__hero {
+    background: linear-gradient(
+        rgba($color-primary, 0.7),
+        rgba($color-secondary, 0.6)
+      ),
+      url("../assets/welcome_page.png") center/cover no-repeat;
+    color: #fff;
+    text-align: center;
+    padding: $space-xxl $space-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-content {
+      max-width: 600px;
+
+      h1 {
+        font-family: $font-heading;
+        font-size: 2.5rem;
+        margin-bottom: $space-sm;
+        letter-spacing: 0.5px;
+      }
+
+      p {
+        font-size: $font-size-lg;
+        margin-bottom: $space-md;
+        opacity: 0.9;
+      }
+    }
+  }
+
+  &__content {
+    max-width: 1200px;
+    margin: $space-xl auto 0;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: $space-xl;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__posts {
+    display: grid;
+    gap: $space-lg;
+  }
+
+  .post-card {
+    @include card;
+    padding: $space-lg;
+
+    &__content {
+      h2 {
+        @include heading(3);
+        color: $color-text;
+      }
+
+      .post-card__excerpt {
+        font-size: $font-size-base;
+        color: $color-muted;
+        margin: $space-sm 0 $space-md;
+      }
+
+      .post-card__footer {
+        text-align: right;
+      }
+    }
+  }
+
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: $space-lg;
+
+    .sidebar__about,
+    .sidebar__tips {
+      h3 {
+        font-family: $font-heading;
+        color: $color-primary;
+        font-size: 1.25rem;
+        margin-bottom: $space-sm;
+      }
+
+      p, li {
+        font-size: $font-size-sm;
+        color: $color-muted;
+      }
+
+      ul {
+        list-style: disc;
+        padding-left: $space-md;
+        margin-top: $space-xs;
+      }
+    }
+  }
+
+  // Empty State
+  &__no-posts {
+    text-align: center;
+    color: $color-muted;
+    font-style: italic;
+  }
+
+  // Loading
+  &__loading {
+    @include flex-center;
+    flex-direction: column;
+    height: 70vh;
+    color: $color-muted;
+
+    .spinner {
+      border: 3px solid $color-border;
+      border-top: 3px solid $color-primary;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: $space-md;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}
