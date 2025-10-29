@@ -23,12 +23,13 @@ export default function PostDetail() {
 
   return (
     <div className="post-detail-container">
-      <Link to="/home">Home</Link>
-      <h2>{post.title}</h2>
+      <Link to="/home" className="post-nav-home">Home</Link>
+      <h1>{post.title}</h1>
       <small>By {post.author}</small>
+      <small> | Posted: {new Date(post.created_at).toLocaleString()}</small>
       <div className="post-tags">
         {Array.isArray(post.tags) && post.tags.map(tag =>
-          <span className="post-tag" key={tag}>{tag}</span>
+          <span className="post-tag" key={tag}># {tag}</span>
         )}
       </div>
       <div dangerouslySetInnerHTML={{ __html: post.content_html }} />

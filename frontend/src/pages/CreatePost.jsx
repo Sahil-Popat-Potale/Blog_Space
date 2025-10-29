@@ -107,7 +107,7 @@ export default function CreatePost() {
             className="createpost-editor"
             modules={{
               toolbar: [
-                [{ 'header': [1, 2, false] }],
+                [{ 'header': [2, 3, false] }],
                 ['bold', 'italic', 'underline', 'link'],
                 ['blockquote', 'code-block', 'image'],
                 [{ 'list': 'ordered'}, { 'list': 'bullet' }]

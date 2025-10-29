@@ -59,15 +59,13 @@ export default function Home() {
                       <span>
                         By <strong>{p.author || "Anonymous"}</strong>
                       </span>
-                      <span>{new Date(p.created_at).toLocaleDateString()}</span>
+                      <span> | {new Date(p.created_at).toLocaleDateString()}</span>
                     </div>
 
                     {Array.isArray(p.tags) && (
                       <div className="post-card__tags">
                         {p.tags.map((tag) => (
-                          <span className="post-tag" key={tag}>
-                            #{tag}
-                          </span>
+                          <span className="post-tag" key={tag}> #{tag}</span>
                         ))}
                       </div>
                     )}
@@ -79,7 +77,7 @@ export default function Home() {
                         __html:
                           (p.content_html
                             ? p.content_html.slice(0, 200)
-                            : turndownService.turndown(p.content || "")
+                            : turndownService.turndown(p.content_markdown || "")
                           ) + "...",
                       }}
                     />

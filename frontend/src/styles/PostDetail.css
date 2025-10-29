@@ -1,13 +1,38 @@
-.post-tags {
-  margin: 10px 0;
+/*.post-detail-container {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}*/
+
+.post-detail-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #1876f2;
 }
+
+.post-tags { margin: 5px 0; }
 
 .post-tag {
   background: #d6ecec;
   color: #226667;
-  padding: 3px 14px;
+  padding: 5px 10px;
   border-radius: 14px;
   font-size: 0.93rem;
   margin-right: 7px;
   font-weight: 500;
+}
+
+.post-nav-home {
+  text-decoration: none;
+  color: #023b87;
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.post-nav-home:hover {
+  text-decoration: underline;
 }
