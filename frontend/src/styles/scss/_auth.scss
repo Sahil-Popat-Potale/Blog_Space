@@ -1,13 +1,13 @@
 @import "./variables";
 @import "./mixins";
 
-.auth-page {
+.auth-container {
   background: linear-gradient(135deg, #eef2ff 0%, #f8faff 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $space-xl;
+  padding: $space-lg;
 }
 
 .auth-card {
@@ -19,7 +19,7 @@
   padding: $space-xl $space-lg;
   text-align: center;
 
-  h1 {
+  h2 {
     @include heading(2);
     color: $color-primary;
     margin-bottom: $space-sm;

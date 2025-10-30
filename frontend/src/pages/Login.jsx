@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import AuthContext from '../AuthContext';
+import '../styles/scss/_auth.scss';
 
 export default function Login() {
   const { save } = useContext(AuthContext);
@@ -45,60 +46,62 @@ export default function Login() {
   };
 
   return (
-    <div className="container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ display: showForgot ? 'none' : 'block' }}>
-        <input
-          placeholder="Email or Username"
-          {...register('identifier')}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          {...register('password')}
-        />
-        <button type="submit">Login</button>
-        <div style={{ marginTop: 16 }}>
-          <a
-            href="#"
-            style={{ color: '#1a8917', fontSize: 14 }}
-            onClick={e => {
-              e.preventDefault();
-              setShowForgot(true);
-              formReset();
-            }}
-          >
-            Forgot password?
-          </a>
-        </div>
-      </form>
-      {showForgot && (
-        <form onSubmit={handleForgot} style={{ marginTop: 30 }}>
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit(onSubmit)} /*style={{ display: showForgot ? 'none' : 'block' }}*/>
           <input
-            type="email"
-            placeholder="Enter your email"
-            value={forgotEmail}
-            onChange={e => setForgotEmail(e.target.value)}
-            autoFocus
+            placeholder="Email or Username"
+            {...register('identifier')}
           />
-          <button type="submit" disabled={forgotLoading}>
-            {forgotLoading ? 'Sending...' : 'Send Reset Link'}
-          </button>
+          <input
+            type="password"
+            placeholder="Password"
+            {...register('password')}
+          />
+          <button type="submit">Login</button>
           <div style={{ marginTop: 16 }}>
             <a
               href="#"
-              style={{ color: '#666', fontSize: 14 }}
+              style={{ color: '#1a8917', fontSize: 14 }}
               onClick={e => {
                 e.preventDefault();
-                setForgotEmail('');
-                setShowForgot(false);
+                setShowForgot(true);
+                formReset();
               }}
             >
-              Back to Login
+              Forgot password?
             </a>
           </div>
         </form>
-      )}
+        {showForgot && (
+          <form onSubmit={handleForgot} style={{ marginTop: 30 }}>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={forgotEmail}
+              onChange={e => setForgotEmail(e.target.value)}
+              autoFocus
+              />
+            <button type="submit" disabled={forgotLoading}>
+              {forgotLoading ? 'Sending...' : 'Send Reset Link'}
+            </button>
+            <div style={{ marginTop: 16 }}>
+              <a
+                href="#"
+                style={{ color: '#666', fontSize: 14 }}
+                onClick={e => {
+                  e.preventDefault();
+                  setForgotEmail('');
+                  setShowForgot(false);
+                }}
+              >
+                Back to Login
+              </a>
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
