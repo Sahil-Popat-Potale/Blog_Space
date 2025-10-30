@@ -28,6 +28,7 @@ export default function PostDetail() {
       <small>By {post.author}</small>
       <small> | Posted: {new Date(post.created_at).toLocaleString()}</small>
       <div className="post-tags">
+        <br />
         {Array.isArray(post.tags) && post.tags.map(tag =>
           <span className="post-tag" key={tag}># {tag}</span>
         )}

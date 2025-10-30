@@ -61,6 +61,7 @@ export default function Home() {
                       </span>
                       <span> | {new Date(p.created_at).toLocaleDateString()}</span>
                     </div>
+                    <br />
 
                     {Array.isArray(p.tags) && (
                       <div className="post-card__tags">

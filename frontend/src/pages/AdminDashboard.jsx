@@ -20,11 +20,12 @@ export default function AdminDashboard() {
   const [comments, setComments] = useState([]);
   const [stats, setStats] = useState({});
 
+  const tokens = JSON.parse(localStorage.getItem('tokens') || '{}');
+  const accessToken = tokens.accessToken || '';
+  
   // Fetch functions
   useEffect(() => {
     if (!user) return;
-    const tokens = JSON.parse(localStorage.getItem('tokens') || '{}');
-    const accessToken = tokens.accessToken || '';
     if (tab === TAB_USERS) {
       api.get('/admin/users', { headers: { Authorization: `Bearer ${accessToken}` },
       }).then(res => setUsers(res.data));
@@ -43,21 +44,26 @@ export default function AdminDashboard() {
   // Sample moderation actions
   const handleBanUser = (id) => {
     if (window.confirm('Ban this user?'))
-      api.put(`/admin/users/${id}`, { ban: true }).then(() => setTab(TAB_USERS));
-  };
+      api.put(`/admin/users/${id}`, { headers: { Authorization: `Bearer ${accessToken}` }}, 
+        { ban: true }).then(() => setTab(TAB_USERS));
+    };
   const handleMakeAdmin = (id) => {
-    api.put(`/admin/users/${id}`, { role: 'admin' }).then(() => setTab(TAB_USERS));
-  };
+    api.put(`/admin/users/${id}`, { headers: { Authorization: `Bearer ${accessToken}` }}, 
+      { role: 'admin' }).then(() => setTab(TAB_USERS));
+  }
   const handleApprovePost = (id) => {
-    api.put(`/posts/${id}/approve`).then(() => setTab(TAB_POSTS));
+    api.put(`/posts/${id}/approve`, { headers: { Authorization: `Bearer ${accessToken}` }}, 
+      { is_approved: true }).then(() => setTab(TAB_POSTS));
   };
   const handleDeletePost = (id) => {
     if (window.confirm('Delete this post?'))
-      api.delete(`/posts/${id}`).then(() => setTab(TAB_POSTS));
+      api.delete(`/posts/${id}`, { headers: { Authorization: `Bearer ${accessToken}` }})
+        .then(() => setTab(TAB_POSTS));
   };
   const handleDeleteComment = (id) => {
     if (window.confirm('Delete this comment?'))
-      api.delete(`/admin/comments/${id}`).then(() => setTab(TAB_COMMENTS));
+      api.delete(`/admin/comments/${id}`, { headers: { Authorization: `Bearer ${accessToken}` }})
+        .then(() => setTab(TAB_COMMENTS));
   };
 
   return (
