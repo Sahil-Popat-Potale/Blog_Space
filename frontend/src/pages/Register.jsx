@@ -3,7 +3,7 @@ import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import '../styles/scss/_auth.scss';
+import '../styles/auth.css';
 
 export default function Register() {
   const { register, handleSubmit } = useForm();
