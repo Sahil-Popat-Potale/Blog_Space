@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import api from '../api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import AuthContext from '../AuthContext';
@@ -46,9 +46,11 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-form" onSubmit={handleSubmit(onSubmit)} /*style={{ display: showForgot ? 'none' : 'block' }}*/>
-        <div className="title">Welcome,<br/><span>sign in to continue</span></div>
+    <div className="auth-container" style={{ background:'#e8e8e8'}} >
+      <form className={`auth-form ${showForgot ? 'hidden' : 'visible'}`} onSubmit={handleSubmit(onSubmit)} >
+        <div className="title">Welcome,<br/><span>Sign in to continue OR </span>
+        <Link to="/register">SignUp!</Link>
+        </div>
         <input className="auth-input"
           placeholder="Email or Username"
           {...register('identifier')}
@@ -58,7 +60,7 @@ export default function Login() {
           type="password"
           {...register('password')}
         />
-        <button className="button-confirm" type="submit">Continue »</button>
+        <button className="oauthButton" type="submit">Continue »</button>
 
         <div className="auth-separator">
           <div></div>
@@ -67,14 +69,14 @@ export default function Login() {
         </div>
 
         <div className="login-with">
-          <div className="button-log"><b>t</b></div>
-          <div className="button-log"></div>
-          <div className="button-log"></div>
+          <div className="button-logo"><b>t</b></div>
+          <div className="button-logo"></div>
+          <div className="button-logo"></div>
       </div>
 
-        <div style={{ marginTop: 16 }}>
+        <div className="forgot-password">
           <a href="#"
-            style={{ color: '#1a8917', fontSize: 14 }}
+            style={{ color: '#212121', fontSize: 18 }}
             onClick={e => {
               e.preventDefault();
               setShowForgot(true);
@@ -85,9 +87,9 @@ export default function Login() {
         </div>
       </form>
         {showForgot && (
-          <form className="auth-form" onSubmit={handleForgot} style={{ marginTop: 30 }}>
+          <form className="auth-form" onSubmit={handleForgot} style={{ marginTop: 50 }}>
             <input className="auth-input"
-              type="email"
+              type="email" name="email"
               placeholder="Enter your email"
               value={forgotEmail}
               onChange={e => setForgotEmail(e.target.value)}
@@ -96,10 +98,10 @@ export default function Login() {
             <button className="button-confirm" type="submit" disabled={forgotLoading}>
               {forgotLoading ? 'Sending...' : 'Send Link'}
             </button>
-            <div style={{ marginTop: 16 }}>
+            <div className="back-login" >
               <a
                 href="#"
-                style={{ color: '#666', fontSize: 14 }}
+                style={{ color: '#212121', fontSize: 18 }}
                 onClick={e => {
                   e.preventDefault();
                   setForgotEmail('');

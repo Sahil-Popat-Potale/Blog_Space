@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import '../styles/auth.css';
@@ -21,25 +21,26 @@ export default function Register() {
 
   return (
     <div className="auth-container">
-      <div className="auth-card">
-        <h2>Register</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input
+      <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="title">Welcome,<br/><span>signUp to continue OR </span>
+        <Link to="/login">Sign In!</Link>
+        </div>
+          <input className="auth-input"
             placeholder="Username"
             {...register('username')}
             />
-          <input
+          <input className="auth-input"
+            type="email"
             placeholder="Email"
             {...register('email')}
             />
-          <input
+          <input className="auth-input"
             type="password"
             placeholder="Password"
             {...register('password')}
             />
-          <button type="submit">Register</button>
-        </form>
-      </div>
+          <button className="oauthButton" type="submit">Register</button>
+      </form>
     </div>
   );
 }

@@ -2,10 +2,10 @@
   --input-focus: #2d8cf0;
   --font-color: #323232;
   --font-color-sub: #666;
-  --bg-color: beige;
-  --main-color: black;
+  --bg-color: #fff;
+  --main-color: #323232;
   padding: 20px;
-  background: lightblue;
+  background: lightgray;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,6 +15,8 @@
   border: 2px solid var(--main-color);
   box-shadow: 4px 4px var(--main-color);
 }
+.auth-form.hidden { display: none !important; }
+.auth-form.visible { display: flex !important; }
 
 .title {
   color: var(--font-color);
@@ -27,6 +29,12 @@
   color: var(--font-color-sub);
   font-weight: 600;
   font-size: 20px;
+}
+
+.title a {
+  color: var(--main-color);
+  text-decoration: none;
+  font-weight: 700;
 }
 
 .auth-input {
@@ -57,7 +65,7 @@
   gap: 20px;
 }
 
-.button-log {
+.button-logo {
   cursor: pointer;
   width: 40px;
   height: 40px;
@@ -78,13 +86,13 @@
   fill: var(--main-color);
 }
 
-.button-log:active, .button-confirm:active {
+.button-logo:active, .button-confirm:active {
   box-shadow: 0px 0px var(--main-color);
   transform: translate(3px, 3px);
 }
 
 .button-confirm {
-  margin: 50px auto 0 auto;
+  margin: 20px auto 0 auto;
   width: 120px;
   height: 40px;
   border-radius: 5px;
@@ -97,9 +105,49 @@
   cursor: pointer;
 }
 
-.button-confirm:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
+.oauthButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 20px auto 0 auto;
+  padding: auto 15px 15px auto;
+  width: 250px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: var(--bg-color);
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--font-color);
+  cursor: pointer;
+  transition: all 250ms;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.oauthButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: #212121;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+}
+
+.oauthButton:hover {
+  color: #e8e8e8;
+}
+
+.oauthButton:hover::before {
+  width: 100%;
 }
 
 .auth-separator {
