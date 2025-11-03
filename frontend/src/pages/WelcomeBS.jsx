@@ -1,74 +1,74 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { gsap } from 'gsap';
-import '../styles/WelcomeBS.css';
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { gsap } from "gsap";
+import "../styles/WelcomeBS.css";
+import MagicBento from "../assets/MagicBento";
 
 export default function WelcomeBS() {
   const [particlesEnabled, setParticlesEnabled] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const gridRef = useRef(null);
+  const trailContainer = useRef(null);
 
   const cardData = [
-    {
-      title: 'Home',
-      description: 'Return to the BlogSpace homepage.',
-      link: '/home',
-      label: 'Main'
-    },
-    {
-      title: 'Latest Posts',
-      description: 'Check out the newest posts and updates.',
-      link: '/home',
-      label: 'New'
-    },
-    {
-      title: 'Most Popular',
-      description: 'See what’s trending in the community.',
-      link: '/popular',
-      label: 'Hot'
-    },
-    {
-      title: 'Top Posts',
-      description: 'Discover the most loved and shared posts.',
-      link: '/top-post',
-      label: 'Best'
-    }
+    { title: "Home", description: "Return to the BlogSpace homepage.", link: "/home", label: "Main" },
+    { title: "Latest Posts", description: "Check out the newest posts and updates.", link: "/home", label: "New" },
+    { title: "Most Popular", description: "See what’s trending in the community.", link: "/popular", label: "Hot" },
+    { title: "Top Posts", description: "Discover the most loved and shared posts.", link: "/top-post", label: "Best" },
   ];
 
-  // Particle/star hover effect
-  const handleHover = (cardEl) => {
+  // Apply theme to root
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
+  // Particle Trail Effect
+  const createParticle = (x, y) => {
     if (!particlesEnabled) return;
-    for (let i = 0; i < 12; i++) {
-      const particle = document.createElement('span');
-      particle.className = 'welcome-bento-particle';
-      cardEl.appendChild(particle);
+    const particle = document.createElement("span");
+    particle.className = "welcome-bento-particle";
+    trailContainer.current.appendChild(particle);
 
-      const x = Math.random() * cardEl.offsetWidth;
-      const y = Math.random() * cardEl.offsetHeight;
-      const size = Math.random() * 6 + 2;
+    gsap.set(particle, {
+      x,
+      y,
+      scale: 0,
+      opacity: 1,
+    });
 
-      gsap.set(particle, {
-        left: x,
-        top: y,
-        width: size,
-        height: size,
-        opacity: 1,
-        scale: 0
-      });
-
-      gsap.to(particle, {
-        duration: 0.8,
-        scale: 1,
-        opacity: 0,
-        y: -10,
-        x: (Math.random() - 0.5) * 20,
-        ease: 'power2.out',
-        onComplete: () => particle.remove()
-      });
-    }
+    gsap.to(particle, {
+      duration: 0.6,
+      scale: Math.random() * 0.6 + 0.4,
+      opacity: 0,
+      x: x + (Math.random() - 0.5) * 40,
+      y: y + (Math.random() - 0.5) * 40,
+      ease: "power2.out",
+      onComplete: () => particle.remove(),
+    });
   };
+
+  useEffect(() => {
+    const handleMouseMove = (e) => createParticle(e.clientX, e.clientY);
+    const handleTouch = (e) => {
+      const touch = e.touches[0];
+      createParticle(touch.clientX, touch.clientY);
+    };
+
+    if (particlesEnabled) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("touchstart", handleTouch);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchstart", handleTouch);
+    };
+  }, [particlesEnabled]);
 
   return (
     <div className="welcome-bento-root">
+      <div ref={trailContainer} className="welcome-bento-particle-container"></div>
+
       {/* Header */}
       <header className="welcome-bento-header">
         <nav className="welcome-bento-navbar">
@@ -91,6 +91,16 @@ export default function WelcomeBS() {
             <button type="submit" className="welcome-bento-search-btn">🔍</button>
           </form>
         </div>
+
+        {/* Theme Switch */}
+        <div className="welcome-bento-theme-toggle">
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="welcome-bento-theme-btn"
+          >
+            {darkMode ? "☀️ Day" : "🌙 Night"}
+          </button>
+        </div>
       </header>
 
       {/* Toggle for particle effects */}
@@ -99,7 +109,7 @@ export default function WelcomeBS() {
           className="welcome-bento-toggle-btn"
           onClick={() => setParticlesEnabled(!particlesEnabled)}
         >
-          ✨ {particlesEnabled ? 'Disable Effects' : 'Enable Effects'}
+          ✨ {particlesEnabled ? "Disable Trail" : "Enable Trail"}
         </button>
       </div>
 
@@ -111,7 +121,6 @@ export default function WelcomeBS() {
               key={index}
               to={card.link}
               className="welcome-bento-card"
-              onMouseEnter={(e) => handleHover(e.currentTarget)}
               onMouseMove={(e) => {
                 const el = e.currentTarget;
                 const rect = el.getBoundingClientRect();
@@ -119,14 +128,14 @@ export default function WelcomeBS() {
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -8;
-                const rotateY = ((x - centerX) / centerX) * 8;
+                const rotateX = ((y - centerY) / centerY) * -15;
+                const rotateY = ((x - centerX) / centerX) * 15;
                 gsap.to(el, {
                   rotateX,
                   rotateY,
                   duration: 0.2,
-                  ease: 'power2.out',
-                  transformPerspective: 1000
+                  ease: "power2.out",
+                  transformPerspective: 1000,
                 });
               }}
               onMouseLeave={(e) => {
@@ -134,7 +143,7 @@ export default function WelcomeBS() {
                   rotateX: 0,
                   rotateY: 0,
                   duration: 0.4,
-                  ease: 'power2.out'
+                  ease: "power2.out",
                 });
               }}
             >

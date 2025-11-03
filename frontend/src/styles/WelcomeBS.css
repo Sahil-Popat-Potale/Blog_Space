@@ -1,33 +1,52 @@
+/* ===================================
+   COLOR PALETTE (EASY TO EDIT)
+=================================== */
 :root {
-  --bento-purple: rgba(132, 0, 255, 1);
-  --bento-purple-light: rgba(132, 0, 255, 0.15);
-  --bento-border: rgba(132, 0, 255, 0.2);
-  --bento-bg-light: #ffffff;
-  --bento-bg-dark: #0b001a;
-  --bento-text-dark: #000000;
-  --bento-text-light: #ffffff;
+  --color-bg: #ffffff;
+  --color-text: #000000;
+  --color-accent: #8a2be2;
+  --color-accent-light: rgba(138, 43, 226, 0.2);
+  --color-border: rgba(138, 43, 226, 0.2);
 }
 
-/* Root */
+[data-theme="dark"] {
+  --color-bg: #0b001a;
+  --color-text: #ffffff;
+  --color-accent: #b266ff;
+  --color-accent-light: rgba(178, 102, 255, 0.25);
+  --color-border: rgba(178, 102, 255, 0.25);
+}
+
+/* ===================================
+   BASE STYLES
+=================================== */
 .welcome-bento-root {
-  background-color: var(--bento-bg-light);
-  color: var(--bento-text-dark);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   min-height: 100vh;
-  transition: background 0.4s, color 0.4s;
   padding-bottom: 3em;
+  transition: background 0.4s, color 0.4s;
+  position: relative;
+  overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  .welcome-bento-root {
-    background-color: var(--bento-bg-dark);
-    color: var(--bento-text-light);
-  }
+/* Particle container (fixed behind) */
+.welcome-bento-particle-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 2;
 }
 
 /* Header & Nav */
 .welcome-bento-header {
   padding: 1em;
-  border-bottom: 1px solid var(--bento-border);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
 }
 
 .welcome-bento-navbar {
@@ -39,22 +58,16 @@
 
 .welcome-bento-navlink {
   text-decoration: none;
-  color: var(--bento-purple);
+  color: var(--color-accent);
   font-weight: 500;
   transition: color 0.3s;
 }
 
 .welcome-bento-navlink:hover {
-  color: var(--bento-text-dark);
+  color: var(--color-text);
 }
 
-@media (prefers-color-scheme: dark) {
-  .welcome-bento-navlink:hover {
-    color: var(--bento-text-light);
-  }
-}
-
-/* Search box (top-left) */
+/* Search Box */
 .welcome-bento-search {
   margin-top: 1em;
   display: flex;
@@ -66,10 +79,10 @@
   display: flex;
   align-items: center;
   gap: 0.5em;
-  border: 1px solid var(--bento-border);
+  border: 1px solid var(--color-border);
   border-radius: 20px;
   padding: 0.4em 0.8em;
-  background: rgba(132, 0, 255, 0.05);
+  background: var(--color-accent-light);
 }
 
 .welcome-bento-search-input {
@@ -85,18 +98,40 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--bento-purple);
+  color: var(--color-accent);
   font-size: 1.1em;
 }
 
-/* Toggle button */
+/* Theme Switch (top-right corner) */
+.welcome-bento-theme-toggle {
+  position: absolute;
+  top: 1em;
+  right: 1.5em;
+}
+
+.welcome-bento-theme-btn {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  padding: 0.5em 0.9em;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.3s;
+}
+
+.welcome-bento-theme-btn:hover {
+  opacity: 0.85;
+}
+
+/* Particle toggle button */
 .welcome-bento-toggle {
   text-align: right;
   margin: 1em 2em;
 }
 
 .welcome-bento-toggle-btn {
-  background: var(--bento-purple);
+  background: var(--color-accent);
   color: #fff;
   border: none;
   padding: 0.5em 1em;
@@ -122,26 +157,20 @@
 
 .welcome-bento-card {
   position: relative;
-  background: var(--bento-bg-light);
-  color: var(--bento-text-dark);
-  border: 1px solid var(--bento-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
   border-radius: 16px;
   padding: 1.2em;
   text-decoration: none;
   transition: all 0.3s ease;
   overflow: hidden;
   transform-style: preserve-3d;
-}
-
-@media (prefers-color-scheme: dark) {
-  .welcome-bento-card {
-    background: var(--bento-bg-dark);
-    color: var(--bento-text-light);
-  }
+  z-index: 3;
 }
 
 .welcome-bento-card:hover {
-  box-shadow: 0 0 25px var(--bento-purple-light);
+  box-shadow: 0 0 25px var(--color-accent-light);
   transform: translateY(-4px);
 }
 
@@ -154,7 +183,7 @@
 
 .welcome-bento-card-label {
   font-size: 14px;
-  color: var(--bento-purple);
+  color: var(--color-accent);
   opacity: 0.8;
 }
 
@@ -168,11 +197,13 @@
   opacity: 0.8;
 }
 
-/* Particles (star effect) */
+/* Particle styling */
 .welcome-bento-particle {
   position: absolute;
   border-radius: 50%;
-  background: var(--bento-purple);
+  background: var(--color-accent);
+  width: 6px;
+  height: 6px;
   pointer-events: none;
-  z-index: 5;
+  z-index: 1;
 }

@@ -104,7 +104,7 @@ export default function Home() {
           {/* ===== Sidebar ===== */}
           <aside className="home__sidebar">
             <div className="card sidebar__about">
-              <h3>About KnowledgeHub</h3>
+              <h3>About Blog Space</h3>
               <p>
                 A place where students and thinkers share insights and grow
                 together through meaningful content.
