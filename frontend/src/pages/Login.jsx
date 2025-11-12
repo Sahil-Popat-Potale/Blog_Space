@@ -46,19 +46,21 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container" style={{ background:'#e8e8e8'}} >
+    <div className="auth-container" >
       <form className={`auth-form ${showForgot ? 'hidden' : 'visible'}`} onSubmit={handleSubmit(onSubmit)} >
-        <div className="title">Welcome,<br/><span>Sign in to continue OR </span>
+        <div className="title">Welcome,<br/><span>SignIn to continue or </span>
         <Link to="/register">SignUp!</Link>
         </div>
         <input className="auth-input"
           placeholder="Email or Username"
           {...register('identifier')}
+          required
         />
         <input className="auth-input"
           placeholder="Password"
           type="password"
           {...register('password')}
+          required
         />
         <button className="oauthButton" type="submit">Continue »</button>
 
@@ -70,13 +72,13 @@ export default function Login() {
 
         <div className="login-with">
           <div className="button-logo"><b>t</b></div>
-          <div className="button-logo"></div>
-          <div className="button-logo"></div>
+          <div className="button-logo">G</div>
+          <div className="button-logo">F</div>
       </div>
 
         <div className="forgot-password">
           <a href="#"
-            style={{ color: '#212121', fontSize: 18 }}
+            style={{ color: '#8dd295', fontSize: 18 }}
             onClick={e => {
               e.preventDefault();
               setShowForgot(true);
@@ -87,7 +89,7 @@ export default function Login() {
         </div>
       </form>
         {showForgot && (
-          <form className="auth-form" onSubmit={handleForgot} style={{ marginTop: 50 }}>
+          <form className="auth-form" onSubmit={handleForgot} >
             <input className="auth-input"
               type="email" name="email"
               placeholder="Enter your email"
@@ -101,7 +103,7 @@ export default function Login() {
             <div className="back-login" >
               <a
                 href="#"
-                style={{ color: '#212121', fontSize: 18 }}
+                style={{ color: '#8dd295', fontSize: 18 }}
                 onClick={e => {
                   e.preventDefault();
                   setForgotEmail('');

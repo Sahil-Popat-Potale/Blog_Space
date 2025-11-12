@@ -20,9 +20,9 @@ export default function Register() {
   };
 
   return (
-    <div className="auth-container">
+    <div className="auth-container" >
       <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="title">Welcome,<br/><span>signUp to continue OR </span>
+        <div className="title">Welcome,<br/><span>SignUp to continue or </span>
         <Link to="/login">Sign In!</Link>
         </div>
           <input className="auth-input"

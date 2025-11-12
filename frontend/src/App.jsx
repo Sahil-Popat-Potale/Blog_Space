@@ -17,7 +17,8 @@ import './styles/app.css';
 export default function App(){ 
     const location = useLocation();
     const { user } = useContext(AuthContext);
-    const hideNavOn = ['/'];
+    const hideNavOn = ['/', '/login', '/register', '/reset-password'];
+    const hideFooterOn = ['/login', '/register', '/reset-password'];
 
     return (
         <div className="app-root">
@@ -35,7 +36,7 @@ export default function App(){
                     <Route path='/create' element={<CreatePost/>}/>
                 </Routes>
             </div>
-            <Footer />
+            {!hideFooterOn.includes(location.pathname) && <Footer />}
         </div>
     );
 }
