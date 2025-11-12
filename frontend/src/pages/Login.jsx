@@ -22,7 +22,13 @@ export default function Login() {
         nav('/home');
       })
       .catch((e) => {
-        toast.error(e.response?.data?.message || 'Login failed');
+        // Custom alert for invalid credentials
+        if (e.response && (e.response.status === 401 || e.response.status === 400)) {
+          toast.error('Please enter valid email or password');
+
+        } else {
+          toast.error(e.response?.data?.message || 'Login failed');
+        }
       });
   };
 
@@ -46,17 +52,22 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container" >
-      <form className={`auth-form ${showForgot ? 'hidden' : 'visible'}`} onSubmit={handleSubmit(onSubmit)} >
-        <div className="title">Welcome,<br/><span>SignIn to continue or </span>
-        <Link to="/register">SignUp!</Link>
+    <div className="auth-container">
+      <form className={`auth-form ${showForgot ? 'hidden' : 'visible'}`} onSubmit={handleSubmit(onSubmit)}>
+        <div className="title">
+          Welcome,<br />
+          <span>SignIn to continue or </span>
+          <Link to="/register">SignUp!</Link>
         </div>
-        <input className="auth-input"
+
+        <input
+          className="auth-input"
           placeholder="Email or Username"
           {...register('identifier')}
           required
         />
-        <input className="auth-input"
+        <input
+          className="auth-input"
           placeholder="Password"
           type="password"
           {...register('password')}
@@ -74,47 +85,52 @@ export default function Login() {
           <div className="button-logo"><b>t</b></div>
           <div className="button-logo">G</div>
           <div className="button-logo">F</div>
-      </div>
+        </div>
 
         <div className="forgot-password">
-          <a href="#"
+          <a
+            href="#"
             style={{ color: '#8dd295', fontSize: 18 }}
             onClick={e => {
               e.preventDefault();
               setShowForgot(true);
               formReset();
             }}
-          > Forgot password?
+          >
+            Forgot password?
           </a>
         </div>
       </form>
-        {showForgot && (
-          <form className="auth-form" onSubmit={handleForgot} >
-            <input className="auth-input"
-              type="email" name="email"
-              placeholder="Enter your email"
-              value={forgotEmail}
-              onChange={e => setForgotEmail(e.target.value)}
-              autoFocus
-              />
-            <button className="button-confirm" type="submit" disabled={forgotLoading}>
-              {forgotLoading ? 'Sending...' : 'Send Link'}
-            </button>
-            <div className="back-login" >
-              <a
-                href="#"
-                style={{ color: '#8dd295', fontSize: 18 }}
-                onClick={e => {
-                  e.preventDefault();
-                  setForgotEmail('');
-                  setShowForgot(false);
-                }}
-              >
-                Back to Login
-              </a>
-            </div>
-          </form>
-        )}
+
+      {showForgot && (
+        <form className="auth-form" onSubmit={handleForgot}>
+          <input
+            className="auth-input"
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            value={forgotEmail}
+            onChange={e => setForgotEmail(e.target.value)}
+            autoFocus
+          />
+          <button className="button-confirm" type="submit" disabled={forgotLoading}>
+            {forgotLoading ? 'Sending...' : 'Send Link'}
+          </button>
+          <div className="back-login">
+            <a
+              href="#"
+              style={{ color: '#8dd295', fontSize: 18 }}
+              onClick={e => {
+                e.preventDefault();
+                setForgotEmail('');
+                setShowForgot(false);
+              }}
+            >
+              Back to Login
+            </a>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

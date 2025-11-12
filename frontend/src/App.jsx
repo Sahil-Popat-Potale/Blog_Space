@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { Toaster, toast } from 'react-hot-toast';
 import AuthContext from './AuthContext';
 import AdminDashboard from './pages/AdminDashboard';
 import CreatePost from './pages/CreatePost';
@@ -22,6 +23,13 @@ export default function App(){
 
     return (
         <div className="app-root">
+            {/* Render Toaster once at app root */}
+            <Toaster
+                position="top-right"
+                toastOptions={{
+                duration: 3000,
+                style: { zIndex: 99999 } // ensure it's above everything
+                }} />
             {!hideNavOn.includes(location.pathname) && <NavBar />}
             <div className="app-content">
                 <Routes>

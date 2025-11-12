@@ -128,7 +128,7 @@ export default function Profile() {
   return (
     <div className="profile-root">
       <div className="profile-card">
-        <h2>Profile</h2>
+        <h2 style={{color:'#97ebcd'}}>Profile</h2>
         <div className="profile-avatar">
           <img
             src={form.avatarUrl || '/default-avatar.png'}
